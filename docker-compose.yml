@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123test
+      - MONGO_INITDB_DATABASE=Authenticator
+    networks:
+            - backend
+    # ports: 
+    #   - 27017:27017
+          
+  authenticator:
+    build: .
+    ports: 
+      - 3001:3000
+    command: bash -c "yarn test && yarn start"
+    restart: always
+    depends_on:
+      - mongo
+    networks:
+      - backend
+      - frontend
+
+
+networks:
+  backend:
+    driver: bridge  
+  frontend:
+    driver: bridge

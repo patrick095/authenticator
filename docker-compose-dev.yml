@@ -1,0 +1,42 @@
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123test
+      - MONGO_INITDB_DATABASE=Authenticator
+    networks:
+            - backend
+    ports: 
+      - 27017:27017
+          
+  authenticator:
+    image: node
+    user: "node"
+    environment: 
+      - PORT=3000
+      - MONGODB_URL=mongodb://root:123test@mongo:27017
+      - SECRET=<YOUR_SECRET_FOR_BCRYPTJS_HERE>
+      - SALT_ROUNDS=13
+      - MAIL_HOST=<YOUR_MAIL_HOST>
+      - MAIL_USER=<YOUR_MAIL_USER>
+      - MAIL_PASS=<YOUR_MAIL_PASSWORD>
+    working_dir: /home/node/authenticator
+    volumes: 
+      - ./:/home/node/authenticator
+    ports: 
+      - 3001:3000
+    command: "yarn dev"
+    depends_on:
+      - mongo
+    networks:
+      - backend
+      - frontend
+
+
+networks:
+  backend:
+    driver: bridge  
+  frontend:
+    driver: bridge
