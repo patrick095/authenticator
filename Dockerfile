@@ -16,9 +16,9 @@ ENV MAIL_HOST=<YOUR_MAIL_HOST>
 ENV MAIL_USER=<YOUR_MAIL_USER>
 ENV MAIL_PASS=<YOUR_MAIL_PASSWORD>
 
-FROM base as test
+# FROM base as test
 
-RUN yarn test
+# RUN yarn test
 
 FROM base as build
 

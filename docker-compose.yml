@@ -7,9 +7,9 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=123test
       - MONGO_INITDB_DATABASE=Authenticator
     networks:
-            - backend
-    # ports: 
-    #   - 27017:27017
+      - backend
+    ports: 
+      - 27017:27017
           
   authenticator:
     build: .
